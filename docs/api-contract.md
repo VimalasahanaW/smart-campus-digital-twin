@@ -40,12 +40,17 @@ Request body:
 ### GET /api/sensors
 [
   {
-    "id": 1,
+    "id": 2,
     "sensorId": "S001",
     "sensorType": "TEMPERATURE",
     "location": "A101",
     "status": "ACTIVE",
-    "buildingId": 1
+    "building": {
+      "id": 1,
+      "name": "Main Block",
+      "location": "Chennai",
+      "buildingType": "Academic"
+    }
   }
 ]
 
@@ -55,7 +60,7 @@ Request body:
   "sensorType": "TEMPERATURE",
   "location": "A101",
   "status": "ACTIVE",
-  "buildingId": 1
+  "building": { "id": 1 }
 }
 
 ---
