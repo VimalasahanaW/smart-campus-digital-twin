@@ -92,12 +92,29 @@ Request body:
 [
   {
     "id": 1,
-    "sensorId": "S001",
     "predictedValue": 31.2,
     "predictionType": "TEMPERATURE_FORECAST",
-    "forDate": "2026-08-23T18:00:00"
+    "forDate": "2026-08-23T18:00:00",
+    "createdAt": "2026-08-23T16:00:00",
+    "sensor": {
+      "id": 2,
+      "sensorId": "S001",
+      "sensorType": "TEMPERATURE",
+      "location": "A101",
+      "status": "ACTIVE",
+      "building": { "id": 1, "name": "Main Block", "location": "Chennai", "buildingType": "Academic" }
+    }
   }
 ]
+
+### POST /api/predictions
+{
+  "predictedValue": 31.2,
+  "predictionType": "TEMPERATURE_FORECAST",
+  "forDate": "2026-08-23T18:00:00",
+  "createdAt": "2026-08-23T16:00:00",
+  "sensor": { "id": 2 }
+}
 
 ---
 
