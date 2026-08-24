@@ -1,7 +1,7 @@
 # Smart Campus API Contract
 
 Base URL (local dev): http://localhost:8080
-Base URL (production): TBD once deployed
+Base URL (production): https://smart-campus-backend-yzt1.onrender.com
 
 All responses are JSON.
 
