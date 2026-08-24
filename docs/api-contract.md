@@ -118,15 +118,28 @@ Request body:
 
 ---
 
+
+
 ## Alert
+
+Alerts are created AUTOMATICALLY by the backend when a sensor reading crosses a 
+threshold (temperature > 35, occupancy > 50, energy > 4.5). No manual POST needed 
+in normal operation — this endpoint is mainly for the frontend to READ alerts.
 
 ### GET /api/alerts
 [
   {
     "id": 1,
-    "sensorId": "S001",
-    "message": "Temperature exceeded 35°C",
+    "message": "Temperature exceeded 35°C at A101",
     "severity": "HIGH",
-    "timestamp": "2026-08-23T15:35:00"
+    "timestamp": "2026-08-24T14:02:28.901594",
+    "sensor": {
+      "id": 2,
+      "sensorId": "S001",
+      "sensorType": "TEMPERATURE",
+      "location": "A101",
+      "status": "ACTIVE",
+      "building": { "id": 1, "name": "Main Block", "location": "Chennai", "buildingType": "Academic" }
+    }
   }
 ]
