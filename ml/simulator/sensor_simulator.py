@@ -9,6 +9,8 @@ API_URL = "https://smart-campus-backend-yzt1.onrender.com/api/sensor-readings"
 # Existing sensors in your database (id: 2 = TEMPERATURE sensor)
 SENSORS = [
     {"id": 1, "type": "TEMPERATURE"},
+    {"id": 2, "type": "OCCUPANCY"},
+    {"id": 3, "type": "ENERGY"},
 ]
 
 def generate_value(sensor_type, hour):
