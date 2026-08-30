@@ -3,6 +3,7 @@ package com.example.smartcampus.controller;
 import com.example.smartcampus.entity.SensorReading;
 import com.example.smartcampus.service.SensorReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,5 +26,22 @@ public class SensorReadingController {
     @PostMapping
     public SensorReading createReading(@RequestBody SensorReading reading) {
         return sensorReadingService.createReading(reading);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<SensorReading> updateReading(@PathVariable Long id, @RequestBody SensorReading reading) {
+        SensorReading updated = sensorReadingService.updateReading(id, reading);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReading(@PathVariable Long id) {
+        boolean deleted = sensorReadingService.deleteReading(id);
+        if (!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }

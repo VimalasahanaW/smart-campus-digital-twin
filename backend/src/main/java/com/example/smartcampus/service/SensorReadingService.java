@@ -71,4 +71,22 @@ public class SensorReadingService {
             alertService.createAlert(alert);
         }
     }
+    public SensorReading updateReading(Long id, SensorReading updatedReading) {
+        SensorReading existing = sensorReadingRepository.findById(id).orElse(null);
+        if (existing == null) {
+            return null;
+        }
+        existing.setValue(updatedReading.getValue());
+        existing.setTimestamp(updatedReading.getTimestamp());
+        existing.setSensor(updatedReading.getSensor());
+        return sensorReadingRepository.save(existing);
+    }
+
+    public boolean deleteReading(Long id) {
+        if (!sensorReadingRepository.existsById(id)) {
+            return false;
+        }
+        sensorReadingRepository.deleteById(id);
+        return true;
+    }
 }

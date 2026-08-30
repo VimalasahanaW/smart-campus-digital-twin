@@ -24,4 +24,24 @@ public class PredictionService {
     public Prediction createPrediction(Prediction prediction) {
         return predictionRepository.save(prediction);
     }
+    public Prediction updatePrediction(Long id, Prediction updatedPrediction) {
+        Prediction existing = predictionRepository.findById(id).orElse(null);
+        if (existing == null) {
+            return null;
+        }
+        existing.setPredictedValue(updatedPrediction.getPredictedValue());
+        existing.setPredictionType(updatedPrediction.getPredictionType());
+        existing.setForDate(updatedPrediction.getForDate());
+        existing.setCreatedAt(updatedPrediction.getCreatedAt());
+        existing.setSensor(updatedPrediction.getSensor());
+        return predictionRepository.save(existing);
+    }
+
+    public boolean deletePrediction(Long id) {
+        if (!predictionRepository.existsById(id)) {
+            return false;
+        }
+        predictionRepository.deleteById(id);
+        return true;
+    }
 }

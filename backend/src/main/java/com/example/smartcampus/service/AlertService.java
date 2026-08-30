@@ -20,4 +20,23 @@ public class AlertService {
     public Alert createAlert(Alert alert) {
         return alertRepository.save(alert);
     }
+    public Alert updateAlert(Long id, Alert updatedAlert) {
+        Alert existing = alertRepository.findById(id).orElse(null);
+        if (existing == null) {
+            return null;
+        }
+        existing.setMessage(updatedAlert.getMessage());
+        existing.setSeverity(updatedAlert.getSeverity());
+        existing.setTimestamp(updatedAlert.getTimestamp());
+        existing.setSensor(updatedAlert.getSensor());
+        return alertRepository.save(existing);
+    }
+
+    public boolean deleteAlert(Long id) {
+        if (!alertRepository.existsById(id)) {
+            return false;
+        }
+        alertRepository.deleteById(id);
+        return true;
+    }
 }

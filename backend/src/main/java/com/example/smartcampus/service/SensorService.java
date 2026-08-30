@@ -24,4 +24,24 @@ public class SensorService {
     public Sensor getSensorById(Long id) {
         return sensorRepository.findById(id).orElse(null);
     }
+    public Sensor updateSensor(Long id, Sensor updatedSensor) {
+        Sensor existing = sensorRepository.findById(id).orElse(null);
+        if (existing == null) {
+            return null;
+        }
+        existing.setSensorId(updatedSensor.getSensorId());
+        existing.setSensorType(updatedSensor.getSensorType());
+        existing.setLocation(updatedSensor.getLocation());
+        existing.setStatus(updatedSensor.getStatus());
+        existing.setBuilding(updatedSensor.getBuilding());
+        return sensorRepository.save(existing);
+    }
+
+    public boolean deleteSensor(Long id) {
+        if (!sensorRepository.existsById(id)) {
+            return false;
+        }
+        sensorRepository.deleteById(id);
+        return true;
+    }
 }
