@@ -1,6 +1,5 @@
 import requests
 import pandas as pd
-from datetime import datetime
 from sklearn.linear_model import LinearRegression
 import joblib
 import os
@@ -8,7 +7,6 @@ import os
 API_BASE = "https://smart-campus-backend-yzt1.onrender.com"
 
 def fetch_readings():
-    """Pull all sensor readings from the live backend."""
     response = requests.get(f"{API_BASE}/api/sensor-readings", timeout=60)
     response.raise_for_status()
     data = response.json()
@@ -16,7 +14,6 @@ def fetch_readings():
     return data
 
 def prepare_dataframe(readings):
-    """Convert raw JSON into a pandas DataFrame with useful features."""
     rows = []
     for r in readings:
         rows.append({
@@ -27,23 +24,28 @@ def prepare_dataframe(readings):
         })
     df = pd.DataFrame(rows)
     df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+    # Feature engineering
     df["hour"] = df["timestamp"].dt.hour
+    df["day_of_week"] = df["timestamp"].dt.dayofweek  # 0=Monday, 6=Sunday
+    df["is_class_hours"] = df["hour"].between(9, 17).astype(int)  # 1 if 9am-5pm
+
     return df
 
 def train_for_sensor_type(df, sensor_type):
-    """Train a simple model: predict value from hour of day, for one sensor type."""
     subset = df[df["sensor_type"] == sensor_type]
     if len(subset) < 5:
         print(f"Not enough data for {sensor_type} ({len(subset)} rows) — skipping")
         return None
 
-    X = subset[["hour"]]
+    X = subset[["hour", "day_of_week", "is_class_hours"]]
     y = subset["value"]
 
     model = LinearRegression()
     model.fit(X, y)
 
-    print(f"Trained model for {sensor_type} on {len(subset)} rows")
+    print(f"Trained model for {sensor_type} on {len(subset)} rows "
+          f"(features: hour, day_of_week, is_class_hours)")
     return model
 
 if __name__ == "__main__":
